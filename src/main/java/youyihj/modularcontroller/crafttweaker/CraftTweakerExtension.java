@@ -6,5 +6,6 @@ public class CraftTweakerExtension {
     public static void registerAllClasses() {
         CraftTweakerAPI.registerClass(CrTMachineRecipeCompleteEvent.class);
         CraftTweakerAPI.registerClass(CrTMachineRecipeStartEvent.class);
+        CraftTweakerAPI.registerClass(ExpandEventManger.class);
     }
 }
