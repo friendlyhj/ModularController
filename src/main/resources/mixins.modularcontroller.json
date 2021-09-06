@@ -1,0 +1,21 @@
+{
+  "required": true,
+  "compatibilityLevel": "JAVA_8",
+  "package": "youyihj.modularcontroller.mixins",
+  "minVersion": "0.7.11",
+  "setSourceFile": true,
+  "priority": 0,
+  "refmap": "mixins.modularcontroller.refmap.json",
+  "mixins": [
+    "MixinDynamicMachine",
+    "MixinMachineDeserializer",
+    "MixinModifierReplacement",
+    "MixinRecipeCraftingContext",
+    "MixinTileMachineController"
+  ],
+  "client": [
+    "MixinDynamicMachineRenderContext",
+    "MixinGuiScreenBlueprint",
+    "MixinStructurePreviewWrapper"
+  ]
+}
