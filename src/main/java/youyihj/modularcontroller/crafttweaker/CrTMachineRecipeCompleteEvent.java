@@ -7,7 +7,7 @@ import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenGetter;
 import youyihj.modularcontroller.event.MachineRecipeCompleteEvent;
 
-@ZenClass("mods.hdsutils.MachineRecipeCompleteEvent")
+@ZenClass("mods.modularcontroller.MachineRecipeCompleteEvent")
 public class CrTMachineRecipeCompleteEvent {
     public CrTMachineRecipeCompleteEvent(MachineRecipeCompleteEvent event) {
         this.event = event;

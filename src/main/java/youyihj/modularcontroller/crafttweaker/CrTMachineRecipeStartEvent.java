@@ -16,7 +16,7 @@ import java.util.Optional;
 /**
  * @author youyihj
  */
-@ZenClass("mods.hdsutils.MachineRecipeStartEvent")
+@ZenClass("mods.modularcontroller.MachineRecipeStartEvent")
 public class CrTMachineRecipeStartEvent implements IEventCancelable {
     private final MachineRecipeStartEvent event;
 
