@@ -42,11 +42,7 @@ public class ModularController {
     public void preinit(FMLPreInitializationEvent event) {
         logger = event.getModLog();
         CraftTweakerExtension.registerAllClasses();
-        try {
-            ModularMachineryHacks.loadAllCustomControllers();
-        } catch (IOException e) {
-            logger.error("failed to load controller", e);
-        }
+        ModularMachineryHacks.loadAllCustomControllers();
         if (FMLCommonHandler.instance().getSide().isClient() && Loader.isModLoaded("resourceloader")) {
             try {
                 ModularMachineryHacks.ClientStuff.writeAllCustomControllerModels();

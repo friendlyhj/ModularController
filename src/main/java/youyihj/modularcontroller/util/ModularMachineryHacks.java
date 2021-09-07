@@ -17,17 +17,17 @@ import org.apache.commons.io.IOUtils;
 import youyihj.modularcontroller.ModularController;
 import youyihj.modularcontroller.block.BlockMMController;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 public final class ModularMachineryHacks {
     private static Constructor<RecipeCraftingContext.CraftingCheckResult> craftingCheckResultConstructor;
     private static Method checkResultAddErrorMethod;
     private static Method checkResultSetValidityMethod;
+    private static final Gson GSON = new GsonBuilder().registerTypeAdapter(BlockMMController.class, MachineJsonPreReader.INSTANCE).create();
 
     static {
         try {
@@ -43,14 +43,16 @@ public final class ModularMachineryHacks {
         }
     }
 
-    public static void loadAllCustomControllers() throws IOException {
+    public static void loadAllCustomControllers() {
         File machineryDir = new File("config/modularmachinery/machinery");
         if (machineryDir.exists() && machineryDir.isDirectory()) {
             for (File file : Objects.requireNonNull(machineryDir.listFiles())) {
                 if (file.getName().endsWith(".json")) {
-                    FileReader reader = new FileReader(file);
-                    Gson gson = new GsonBuilder().registerTypeAdapter(BlockMMController.class, MachineJsonPreReader.INSTANCE).create();
-                    gson.fromJson(reader, BlockMMController.class);
+                    try (InputStreamReader isr = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)) {
+                        GSON.fromJson(isr, BlockMMController.class);
+                    } catch (IOException e) {
+                        ModularController.logger.error("failed to load custom controllers", e);
+                    }
                 }
             }
         }
