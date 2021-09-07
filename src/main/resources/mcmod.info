@@ -1,7 +1,7 @@
 [
   {
     "modid": "modularcontroller",
-    "name": "ModularController",
+    "name": "Modular Controller",
     "description": "Each machine should have its own controller",
     "version": "${version}",
     "mcversion": "${mcversion}",
