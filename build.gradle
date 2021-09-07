@@ -96,7 +96,7 @@ jar {
     manifest {
         attributes([
                 'TweakClass': 'org.spongepowered.asm.launch.MixinTweaker',
-                "FMLCorePlugin": "youyihj.herodotusutils.core.HerodotusUtilsPlugin",
+                "FMLCorePlugin": "youyihj.modularcontroller.core.ModularControllerPlugin",
                 "FMLCorePluginContainsFMLMod": true,
                 "ForceLoadAsMod": true
         ])
