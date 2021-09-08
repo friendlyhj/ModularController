@@ -27,11 +27,11 @@ public class CrTMachineRecipeCompleteEvent {
 
     @ZenGetter("recipeID")
     public String getRecipeID() {
-        return event.getRecipeID().toString();
+        return event.getRecipe().getRegistryName().toString();
     }
 
     @ZenGetter("machineID")
     public String getMachineID() {
-        return event.getMachineID().toString();
+        return event.getMachine().getRegistryName().toString();
     }
 }

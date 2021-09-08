@@ -1,28 +1,29 @@
 package youyihj.modularcontroller.event;
 
-import net.minecraft.util.ResourceLocation;
+import hellfirepvp.modularmachinery.common.crafting.MachineRecipe;
+import hellfirepvp.modularmachinery.common.machine.DynamicMachine;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class MachineRecipeCompleteEvent extends BaseEvent {
-    private final ResourceLocation recipeID;
-    private final ResourceLocation machineID;
+    private final MachineRecipe recipe;
+    private final DynamicMachine machine;
     private final BlockPos pos;
     private final World world;
 
-    public MachineRecipeCompleteEvent(ResourceLocation recipeID, ResourceLocation machineID, BlockPos pos, World world) {
-        this.recipeID = recipeID;
-        this.machineID = machineID;
+    public MachineRecipeCompleteEvent(MachineRecipe recipe, DynamicMachine machine, BlockPos pos, World world) {
+        this.recipe = recipe;
+        this.machine = machine;
         this.pos = pos;
         this.world = world;
     }
 
-    public ResourceLocation getRecipeID() {
-        return recipeID;
+    public MachineRecipe getRecipe() {
+        return recipe;
     }
 
-    public ResourceLocation getMachineID() {
-        return machineID;
+    public DynamicMachine getMachine() {
+        return machine;
     }
 
     public BlockPos getPos() {

@@ -47,6 +47,6 @@ public abstract class MixinTileMachineController extends TileEntityRestrictedTic
 
     @Inject(method = "doRestrictedTick", at = @At(value = "INVOKE", target = "Lhellfirepvp/modularmachinery/common/crafting/ActiveMachineRecipe;reset()V"), remap = false)
     private void injectDoRestrictedTick(CallbackInfo ci) {
-        new MachineRecipeCompleteEvent(activeRecipe.getRecipe().getRegistryName(), foundMachine.getRegistryName(), pos, world).post();
+        new MachineRecipeCompleteEvent(activeRecipe.getRecipe(), foundMachine, pos, world).post();
     }
 }
