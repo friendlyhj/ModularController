@@ -63,7 +63,7 @@ mixin {
 }
 
 dependencies {
-    deobfCompile "hellfirepvp.modularmachinery:modularmachinery:1.12.2-1.10.0-v44"
+    deobfCompile "hellfirepvp.modularmachinery:modularmachinery:1.12.2-1.11.1-v53"
     deobfCompile "mezz.jei:jei_1.12.2:4.16.1.302"
     deobfCompile "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.646"
     compile('org.spongepowered:mixin:0.8-SNAPSHOT') {

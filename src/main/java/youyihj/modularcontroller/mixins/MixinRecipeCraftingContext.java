@@ -19,17 +19,16 @@ import youyihj.modularcontroller.util.ModularMachineryHacks;
 public abstract class MixinRecipeCraftingContext {
     @Shadow
     @Final
-    private MachineRecipe recipe;
-
-    @Shadow
-    @Final
     private TileMachineController machineController;
 
-    @Inject(method = "canStartCrafting", at = @At("RETURN"), cancellable = true)
+    @Shadow
+    public abstract MachineRecipe getParentRecipe();
+
+    @Inject(method = "canStartCrafting(Ljava/util/function/Predicate;)Lhellfirepvp/modularmachinery/common/crafting/helper/RecipeCraftingContext$CraftingCheckResult;", at = @At("RETURN"), cancellable = true)
     private void injectStartCrafting(CallbackInfoReturnable<RecipeCraftingContext.CraftingCheckResult> cir) {
         if (cir.getReturnValue().isFailure())
             return;
-        MachineRecipeStartEvent event = new MachineRecipeStartEvent(machineController.getFoundMachine(), this.recipe, machineController.getWorld(), machineController.getPos());
+        MachineRecipeStartEvent event = new MachineRecipeStartEvent(machineController.getFoundMachine(), getParentRecipe(), machineController.getWorld(), machineController.getPos());
         if (event.post()) {
             cir.setReturnValue(ModularMachineryHacks.createErrorResult(event.getFailureMessage(), 0.98f));
         }
