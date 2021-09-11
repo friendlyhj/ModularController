@@ -1,0 +1,23 @@
+{
+  "machine_activated_industry": {
+    "category": "block",
+    "subtitle": "modularcontroller.sound.machine.industry",
+    "sounds": [
+      "modularcontroller:machine_activated_industry"
+    ]
+  },
+  "machine_activated_science_fiction": {
+    "category": "block",
+    "subtitle": "modularcontroller.sound.machine.sc_fiction",
+    "sounds": [
+      "modularcontroller:machine_activated_sc_fiction"
+    ]
+  },
+  "machine_activated_steam": {
+    "category": "block",
+    "subtitle": "modularcontroller.sound.machine.steam",
+    "sounds": [
+      "modularcontroller:machine_activated_steam"
+    ]
+  }
+}

@@ -1,1 +1,4 @@
 modular.controller=%s Controller
+modularcontroller.sound.machine.industry=Machine Activated (Industry Style)
+modularcontroller.sound.machine.sc_fiction=Machine Activated (Science Fiction Style)
+modularcontroller.sound.machine.steam=Machine Activated (Steam Style)

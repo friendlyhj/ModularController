@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
@@ -54,6 +55,10 @@ public class ModularController {
 
     @Mod.EventBusSubscriber
     public static final class CommonRegistry {
+        public static final SoundEvent MACHINE_ACTIVATED_INDUSTRY = new SoundEvent(rl("machine_activated_industry")).setRegistryName(rl("machine_activated_industry"));
+        public static final SoundEvent MACHINE_ACTIVATED_SC_FICTION = new SoundEvent(rl("machine_activated_science_fiction")).setRegistryName(rl("machine_activated_science_fiction"));
+        public static final SoundEvent MACHINE_ACTIVATED_STEAM = new SoundEvent(rl("machine_activated_steam")).setRegistryName(rl("machine_activated_steam"));
+
         @SubscribeEvent
         public static void registerBlocks(RegistryEvent.Register<Block> event) {
             BlockMMController.CONTROLLERS.forEach(event.getRegistry()::register);
@@ -62,6 +67,15 @@ public class ModularController {
         @SubscribeEvent
         public static void registerItems(RegistryEvent.Register<Item> event) {
             BlockMMController.CONTROLLER_ITEMS.forEach(event.getRegistry()::register);
+        }
+
+        @SubscribeEvent
+        public static void registerSounds(RegistryEvent.Register<SoundEvent> event) {
+            event.getRegistry().registerAll(
+                    MACHINE_ACTIVATED_INDUSTRY,
+                    MACHINE_ACTIVATED_SC_FICTION,
+                    MACHINE_ACTIVATED_STEAM
+            );
         }
     }
 

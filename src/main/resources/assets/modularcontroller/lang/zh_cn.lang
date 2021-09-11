@@ -1,1 +1,4 @@
 modular.controller=%s控制器
+modularcontroller.sound.machine.industry=机器激活（工业风格）
+modularcontroller.sound.machine.sc_fiction=机器激活（科幻风格）
+modularcontroller.sound.machine.steam=机器激活（蒸汽风格）
