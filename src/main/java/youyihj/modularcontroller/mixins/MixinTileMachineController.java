@@ -79,8 +79,10 @@ public abstract class MixinTileMachineController extends TileEntityRestrictedTic
             remap = false
     )
     private void redirectMatchesRotation(TileMachineController tileMachineController, DynamicMachine value) {
-        if (value == null)
+        if (value == null) {
+            foundMachine = null;
             return;
+        }
         SoundEvent activatedSound = ((IDynamicMachinePatch) value).getActivatedSound();
         if (this.foundMachine == null && activatedSound != null) {
             world.playSound(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, activatedSound, SoundCategory.BLOCKS, 1.0f, 1.0f);
