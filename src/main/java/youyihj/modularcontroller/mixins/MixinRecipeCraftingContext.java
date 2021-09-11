@@ -1,6 +1,5 @@
 package youyihj.modularcontroller.mixins;
 
-import hellfirepvp.modularmachinery.ModularMachinery;
 import hellfirepvp.modularmachinery.common.crafting.MachineRecipe;
 import hellfirepvp.modularmachinery.common.crafting.helper.RecipeCraftingContext;
 import hellfirepvp.modularmachinery.common.tiles.TileMachineController;
@@ -31,9 +30,8 @@ public abstract class MixinRecipeCraftingContext {
     }
 
     @Inject(method = "canStartCrafting()Lhellfirepvp/modularmachinery/common/crafting/helper/RecipeCraftingContext$CraftingCheckResult;", at = @At("RETURN"), cancellable = true)
-    @SuppressWarnings("all")
     private void injectStartCrafting0(CallbackInfoReturnable<RecipeCraftingContext.CraftingCheckResult> cir) {
-        if (ModularMachinery.VERSION.equals("1.10.0")) {
+        if (ModularMachineryHacks.getModularMachineryVersion().equals("1.10.0")) {
             handleInject(cir);
         }
     }

@@ -9,7 +9,7 @@ import hellfirepvp.modularmachinery.common.util.BlockArray;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.IResource;
 import net.minecraft.client.resources.IResourceManager;
-import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.io.FileUtils;
@@ -17,7 +17,10 @@ import org.apache.commons.io.IOUtils;
 import youyihj.modularcontroller.ModularController;
 import youyihj.modularcontroller.block.BlockMMController;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
@@ -67,6 +70,10 @@ public final class ModularMachineryHacks {
         } catch (Throwable e) {
             throw new RuntimeException("failed to create such a crafting check result", e);
         }
+    }
+
+    public static String getModularMachineryVersion() {
+        return Loader.instance().getIndexedModList().get(ModularMachinery.MODID).getVersion();
     }
 
     @SideOnly(Side.CLIENT)
