@@ -9,6 +9,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -83,5 +84,10 @@ public class BlockMMController extends BlockController implements ItemDynamicCol
     @Override
     public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
         return information.getLightValue();
+    }
+
+    @Override
+    public BlockRenderLayer getBlockLayer() {
+        return information.isEnableAlpha() ? BlockRenderLayer.TRANSLUCENT : BlockRenderLayer.CUTOUT;
     }
 }

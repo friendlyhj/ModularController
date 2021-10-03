@@ -19,10 +19,11 @@ public enum MachineJsonPreReader implements JsonDeserializer<BlockMMController> 
         String localizedName = JsonUtils.getString(jsonObject, "localizedname");
         ControllerInformation information = new ControllerInformation(registryName, localizedName, color);
         Optional.ofNullable(jsonObject.get("controller")).map(JsonElement::getAsJsonObject).ifPresent(jsonInfo -> {
-            information.setFullBlock(JsonUtils.getBoolean(jsonInfo, "fullblock", true));
+            information.setFullBlock(JsonUtils.getBoolean(jsonInfo, "fullBlock", true));
             information.setLocalizedKey(JsonUtils.getString(jsonInfo, "localizedKey", ""));
             information.setName(JsonUtils.getString(jsonInfo, "name", ""));
-            information.setLightValue(JsonUtils.getInt(jsonInfo, "lightvalue", 0));
+            information.setLightValue(JsonUtils.getInt(jsonInfo, "lightValue", 0));
+            information.setEnableAlpha(JsonUtils.getBoolean(jsonInfo, "alphaEnabled", false));
         });
         return BlockMMController.create(information);
     }

@@ -16,6 +16,7 @@ public class ControllerInformation {
     private String localizedKey = "";
     private boolean isFullBlock = true;
     private int lightValue = 0;
+    private boolean enableAlpha = false;
 
     public ControllerInformation(String machineName, String machineLocalizeName, int color) {
         this.machineName = machineName;
@@ -57,6 +58,14 @@ public class ControllerInformation {
 
     public String getMachineName() {
         return machineName;
+    }
+
+    public boolean isEnableAlpha() {
+        return enableAlpha;
+    }
+
+    public void setEnableAlpha(boolean enableAlpha) {
+        this.enableAlpha = enableAlpha;
     }
 
     @SuppressWarnings("deprecation")
