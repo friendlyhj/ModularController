@@ -11,63 +11,77 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.IBlockAccess;
+import youyihj.modularcontroller.util.ControllerInformation;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BlockMMController extends BlockController implements ItemDynamicColor {
 
-    private final int color;
-    private final String machineRegistryName;
-    private final String machineLocalizedName;
+    private final ControllerInformation information;
 
-    public static final List<BlockMMController> CONTROLLERS = new ArrayList<>();
+    public static final Map<String, BlockMMController> CONTROLLERS = new HashMap<>();
     public static final List<Item> CONTROLLER_ITEMS = new ArrayList<>();
 
-    private BlockMMController(String machineRegistryName, String machineLocalizedName, int color) {
-        this.setRegistryName(machineRegistryName + "_controller");
-        this.machineRegistryName = machineRegistryName;
-        this.machineLocalizedName = machineLocalizedName;
-        this.color = color;
+    private BlockMMController(ControllerInformation information) {
+        this.information = information;
+        this.setRegistryName(information.getName());
+        this.fullBlock = information.isFullBlock();
+        this.lightOpacity = this.fullBlock ? 255 : 0;
     }
 
-    public static BlockMMController create(String machineRegistryName, String machineLocalizedName, int color) {
-        BlockMMController controller = new BlockMMController(machineRegistryName, machineLocalizedName, color);
+    public static BlockMMController create(ControllerInformation information) {
+        if (CONTROLLERS.containsKey(information.getName())) {
+            return CONTROLLERS.get(information.getName());
+        }
+        BlockMMController controller = new BlockMMController(information);
 
-        CONTROLLERS.add(controller);
+        CONTROLLERS.put(information.getName(), controller);
         CONTROLLER_ITEMS.add(new ItemBlock(controller) {
             @Override
             public String getItemStackDisplayName(ItemStack stack) {
                 return controller.getLocalizedName();
             }
-        }.setRegistryName(machineRegistryName + "_controller"));
+        }.setRegistryName(information.getName()));
 
         return controller;
     }
 
     @Override
     public int getColorMultiplier(IBlockState state, @Nullable IBlockAccess worldIn, @Nullable BlockPos pos, int tintIndex) {
-        return color;
+        return information.getColor();
     }
 
     @Override
-    @SuppressWarnings("deprecation")
     public String getLocalizedName() {
-        String localizationKey = ModularMachinery.MODID + "." + machineRegistryName;
-        String localizedName = I18n.canTranslate(localizationKey) ? I18n.translateToLocal(localizationKey) :
-                machineLocalizedName != null ? machineLocalizedName : localizationKey;
-        return I18n.translateToLocalFormatted("modular.controller", localizedName);
+        return information.getLocalizedName();
     }
 
     @Override
     public int getColorFromItemstack(ItemStack stack, int tintIndex) {
-        return color;
+        return information.getColor();
     }
 
     public DynamicMachine getAssociatedMachine() {
-        return MachineRegistry.getRegistry().getMachine(new ResourceLocation(ModularMachinery.MODID, machineRegistryName));
+        return MachineRegistry.getRegistry().getMachine(new ResourceLocation(ModularMachinery.MODID, information.getMachineName()));
+    }
+
+    @Override
+    public boolean isFullCube(IBlockState state) {
+        return information.isFullBlock();
+    }
+
+    @Override
+    public boolean isOpaqueCube(IBlockState state) {
+        return information == null || information.isFullBlock();
+    }
+
+    @Override
+    public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
+        return information.getLightValue();
     }
 }

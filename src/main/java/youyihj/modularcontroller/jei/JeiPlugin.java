@@ -14,8 +14,8 @@ import youyihj.modularcontroller.block.BlockMMController;
 public class JeiPlugin implements IModPlugin {
     @Override
     public void register(IModRegistry registry) {
-        BlockMMController.CONTROLLERS.forEach(controller ->
-            registry.addRecipeCatalyst(new ItemStack(controller), ModIntegrationJEI.getCategoryStringFor(controller.getAssociatedMachine()))
+        BlockMMController.CONTROLLERS.values().forEach(controller ->
+                registry.addRecipeCatalyst(new ItemStack(controller), ModIntegrationJEI.getCategoryStringFor(controller.getAssociatedMachine()))
         );
     }
 }

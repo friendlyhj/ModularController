@@ -10,6 +10,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Loader;
@@ -61,7 +62,7 @@ public class ModularController {
 
         @SubscribeEvent
         public static void registerBlocks(RegistryEvent.Register<Block> event) {
-            BlockMMController.CONTROLLERS.forEach(event.getRegistry()::register);
+            BlockMMController.CONTROLLERS.values().forEach(event.getRegistry()::register);
         }
 
         @SubscribeEvent
@@ -83,12 +84,13 @@ public class ModularController {
     public static final class ModelRegistry {
         @SubscribeEvent
         public static void registerModels(ModelRegistryEvent event) {
+            OBJLoader.INSTANCE.addDomain(Reference.MOD_ID);
             BlockMMController.CONTROLLER_ITEMS.forEach(ModelRegistry::registerItemModel);
         }
 
         @SubscribeEvent
         public static void blockColors(ColorHandlerEvent.Block event) {
-            BlockMMController.CONTROLLERS.forEach(controller -> {
+            BlockMMController.CONTROLLERS.values().forEach(controller -> {
                 BlockColors blockColors = event.getBlockColors();
                 blockColors.registerBlockColorHandler(controller::getColorMultiplier, controller);
             });
@@ -96,7 +98,7 @@ public class ModularController {
 
         @SubscribeEvent
         public static void itemColors(ColorHandlerEvent.Item event) {
-            BlockMMController.CONTROLLERS.forEach(controller -> {
+            BlockMMController.CONTROLLERS.values().forEach(controller -> {
                 ItemColors itemColors = event.getItemColors();
                 itemColors.registerItemColorHandler(controller::getColorFromItemstack, controller);
             });

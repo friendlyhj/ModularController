@@ -99,7 +99,7 @@ public final class ModularMachineryHacks {
 
         public static void writeAllCustomControllerModels() throws IOException {
             IResourceManager resourceManager = Minecraft.getMinecraft().getResourceManager();
-            for (BlockMMController controller : BlockMMController.CONTROLLERS) {
+            for (BlockMMController controller : BlockMMController.CONTROLLERS.values()) {
                 IResource blockStateResource = resourceManager.getResource(ModularController.rl("blockstates/mm_controller.json"));
                 File blockStateFile = new File("resources/modularcontroller/blockstates/" + controller.getRegistryName().getResourcePath() + ".json");
                 if (!blockStateFile.exists()) {

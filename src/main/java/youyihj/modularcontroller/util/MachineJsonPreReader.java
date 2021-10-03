@@ -6,6 +6,7 @@ import net.minecraft.util.JsonUtils;
 import youyihj.modularcontroller.block.BlockMMController;
 
 import java.lang.reflect.Type;
+import java.util.Optional;
 
 public enum MachineJsonPreReader implements JsonDeserializer<BlockMMController> {
     INSTANCE;
@@ -14,10 +15,15 @@ public enum MachineJsonPreReader implements JsonDeserializer<BlockMMController> 
     public BlockMMController deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject jsonObject = json.getAsJsonObject();
         int color = jsonObject.has("color") ? Integer.parseInt(jsonObject.get("color").getAsString(), 16) : Config.machineColor;
-        return BlockMMController.create(
-                JsonUtils.getString(jsonObject, "registryname"),
-                JsonUtils.getString(jsonObject, "localizedname"),
-                color
-        );
+        String registryName = JsonUtils.getString(jsonObject, "registryname");
+        String localizedName = JsonUtils.getString(jsonObject, "localizedname");
+        ControllerInformation information = new ControllerInformation(registryName, localizedName, color);
+        Optional.ofNullable(jsonObject.get("controller")).map(JsonElement::getAsJsonObject).ifPresent(jsonInfo -> {
+            information.setFullBlock(JsonUtils.getBoolean(jsonInfo, "fullblock", true));
+            information.setLocalizedKey(JsonUtils.getString(jsonInfo, "localizedKey", ""));
+            information.setName(JsonUtils.getString(jsonInfo, "name", ""));
+            information.setLightValue(JsonUtils.getInt(jsonInfo, "lightvalue", 0));
+        });
+        return BlockMMController.create(information);
     }
 }
