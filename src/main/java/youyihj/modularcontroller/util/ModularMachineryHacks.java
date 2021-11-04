@@ -17,10 +17,7 @@ import org.apache.commons.io.IOUtils;
 import youyihj.modularcontroller.ModularController;
 import youyihj.modularcontroller.block.BlockMMController;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
@@ -103,7 +100,11 @@ public final class ModularMachineryHacks {
                 IResource blockStateResource = resourceManager.getResource(ModularController.rl("blockstates/mm_controller.json"));
                 File blockStateFile = new File("resources/modularcontroller/blockstates/" + controller.getRegistryName().getResourcePath() + ".json");
                 if (!blockStateFile.exists()) {
-                    IOUtils.copy(blockStateResource.getInputStream(), FileUtils.openOutputStream(blockStateFile));
+                    final InputStream inputStream = blockStateResource.getInputStream();
+                    final FileOutputStream fileOutputStream = FileUtils.openOutputStream(blockStateFile);
+                    IOUtils.copy(inputStream, fileOutputStream);
+                    inputStream.close();
+                    fileOutputStream.close();
                 }
             }
         }
