@@ -35,7 +35,7 @@ public class BlockMMController extends BlockController implements ItemDynamicCol
         this.lightOpacity = this.fullBlock ? 255 : 0;
     }
 
-    public static BlockMMController create(ControllerInformation information) {
+    public static BlockMMController getOrCreate(ControllerInformation information) {
         if (CONTROLLERS.containsKey(information.getName())) {
             return CONTROLLERS.get(information.getName());
         }

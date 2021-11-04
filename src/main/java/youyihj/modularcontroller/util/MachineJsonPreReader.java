@@ -25,6 +25,6 @@ public enum MachineJsonPreReader implements JsonDeserializer<BlockMMController> 
             information.setLightValue(JsonUtils.getInt(jsonInfo, "lightValue", 0));
             information.setEnableAlpha(JsonUtils.getBoolean(jsonInfo, "alphaEnabled", false));
         });
-        return BlockMMController.create(information);
+        return BlockMMController.getOrCreate(information);
     }
 }
