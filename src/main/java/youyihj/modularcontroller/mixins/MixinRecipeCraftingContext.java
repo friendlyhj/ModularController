@@ -29,12 +29,12 @@ public abstract class MixinRecipeCraftingContext {
         handleInject(cir);
     }
 
-    @Inject(method = "canStartCrafting()Lhellfirepvp/modularmachinery/common/crafting/helper/RecipeCraftingContext$CraftingCheckResult;", at = @At("RETURN"), cancellable = true)
-    private void injectStartCrafting0(CallbackInfoReturnable<RecipeCraftingContext.CraftingCheckResult> cir) {
-        if (ModularMachineryHacks.getModularMachineryVersion().equals("1.10.0")) {
-            handleInject(cir);
-        }
-    }
+//    @Inject(method = "canStartCrafting()Lhellfirepvp/modularmachinery/common/crafting/helper/RecipeCraftingContext$CraftingCheckResult;", at = @At("RETURN"), cancellable = true)
+//    private void injectStartCrafting0(CallbackInfoReturnable<RecipeCraftingContext.CraftingCheckResult> cir) {
+//        if (ModularMachineryHacks.getModularMachineryVersion().equals("1.10.0")) {
+//            handleInject(cir);
+//        }
+//    }
 
     private void handleInject(CallbackInfoReturnable<RecipeCraftingContext.CraftingCheckResult> cir) {
         if (cir.getReturnValue().isFailure())
