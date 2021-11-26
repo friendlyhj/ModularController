@@ -4,6 +4,7 @@ import com.google.common.base.Functions;
 import crafttweaker.api.event.IEventCancelable;
 import crafttweaker.api.minecraft.CraftTweakerMC;
 import crafttweaker.api.world.IBlockPos;
+import crafttweaker.api.world.IFacing;
 import crafttweaker.api.world.IWorld;
 import hellfirepvp.modularmachinery.common.machine.DynamicMachine;
 import stanhebben.zenscript.annotations.ZenClass;
@@ -60,5 +61,15 @@ public class CrTMachineRecipeStartEvent implements IEventCancelable {
     @Override
     public void setCanceled(boolean canceled) {
         event.setCanceled(canceled);
+    }
+
+    @ZenGetter("facing")
+    public IFacing getFacing() {
+        return CraftTweakerMC.getIFacing(event.getFacing());
+    }
+
+    @ZenMethod
+    public IBlockPos getOffsetByFacing(int x, int y, int z) {
+        return CraftTweakerMC.getIBlockPos(event.getOffsetByFacing(x, y, z));
     }
 }

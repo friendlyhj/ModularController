@@ -13,15 +13,12 @@ import net.minecraftforge.fml.common.eventhandler.Cancelable;
 public class MachineRecipeStartEvent extends BaseEvent {
     private final DynamicMachine machine;
     private final MachineRecipe recipe;
-    private final World world;
-    private final BlockPos pos;
     private String failureMessage;
 
     public MachineRecipeStartEvent(DynamicMachine machine, MachineRecipe recipe, World world, BlockPos pos) {
+        super(world, pos);
         this.machine = machine;
         this.recipe = recipe;
-        this.world = world;
-        this.pos = pos;
     }
 
     public void setFailureMessage(String failureMessage) {
@@ -31,14 +28,6 @@ public class MachineRecipeStartEvent extends BaseEvent {
 
     public String getFailureMessage() {
         return failureMessage;
-    }
-
-    public BlockPos getPos() {
-        return pos;
-    }
-
-    public World getWorld() {
-        return world;
     }
 
     public DynamicMachine getMachine() {

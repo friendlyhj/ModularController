@@ -8,14 +8,11 @@ import net.minecraft.world.World;
 public class MachineRecipeCompleteEvent extends BaseEvent {
     private final MachineRecipe recipe;
     private final DynamicMachine machine;
-    private final BlockPos pos;
-    private final World world;
 
     public MachineRecipeCompleteEvent(MachineRecipe recipe, DynamicMachine machine, BlockPos pos, World world) {
+        super(world, pos);
         this.recipe = recipe;
         this.machine = machine;
-        this.pos = pos;
-        this.world = world;
     }
 
     public MachineRecipe getRecipe() {
@@ -24,13 +21,5 @@ public class MachineRecipeCompleteEvent extends BaseEvent {
 
     public DynamicMachine getMachine() {
         return machine;
-    }
-
-    public BlockPos getPos() {
-        return pos;
-    }
-
-    public World getWorld() {
-        return world;
     }
 }
