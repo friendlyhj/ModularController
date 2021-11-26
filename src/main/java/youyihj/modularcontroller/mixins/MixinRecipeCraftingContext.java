@@ -39,7 +39,7 @@ public abstract class MixinRecipeCraftingContext {
     private void handleInject(CallbackInfoReturnable<RecipeCraftingContext.CraftingCheckResult> cir) {
         if (cir.getReturnValue().isFailure())
             return;
-        MachineRecipeStartEvent event = new MachineRecipeStartEvent(machineController.getFoundMachine(), getParentRecipe(), machineController.getWorld(), machineController.getPos());
+        MachineRecipeStartEvent event = new MachineRecipeStartEvent((RecipeCraftingContext) (Object) this);
         if (event.post()) {
             cir.setReturnValue(ModularMachineryHacks.createErrorResult(event.getFailureMessage(), 0.98f));
         }

@@ -6,7 +6,11 @@ import crafttweaker.api.minecraft.CraftTweakerMC;
 import crafttweaker.api.world.IBlockPos;
 import crafttweaker.api.world.IFacing;
 import crafttweaker.api.world.IWorld;
+import hellfirepvp.modularmachinery.common.crafting.requirement.type.RequirementType;
+import hellfirepvp.modularmachinery.common.lib.RegistriesMM;
 import hellfirepvp.modularmachinery.common.machine.DynamicMachine;
+import hellfirepvp.modularmachinery.common.modifier.RecipeModifier;
+import net.minecraft.util.ResourceLocation;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenGetter;
 import stanhebben.zenscript.annotations.ZenMethod;
@@ -71,5 +75,11 @@ public class CrTMachineRecipeStartEvent implements IEventCancelable {
     @ZenMethod
     public IBlockPos getOffsetByFacing(int x, int y, int z) {
         return CraftTweakerMC.getIBlockPos(event.getOffsetByFacing(x, y, z));
+    }
+
+    @ZenMethod
+    public void addModifier(String requirementType, CrTIOType ioType, float amount, RecipeModifierOperation operation) {
+        RequirementType<?, ?> type = RegistriesMM.REQUIREMENT_TYPE_REGISTRY.getValue(new ResourceLocation(requirementType));
+        event.addModifier(new RecipeModifier(type, ioType.getInternal(), amount, operation.getInternal(), operation.affectChance()));
     }
 }

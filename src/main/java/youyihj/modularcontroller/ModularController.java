@@ -1,10 +1,17 @@
 package youyihj.modularcontroller;
 
+import crafttweaker.CraftTweakerAPI;
+import crafttweaker.mc1120.commands.CTChatCommand;
+import crafttweaker.mc1120.commands.CraftTweakerCommand;
+import crafttweaker.mc1120.commands.SpecialMessagesChat;
+import hellfirepvp.modularmachinery.common.lib.RegistriesMM;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.ItemColors;
+import net.minecraft.command.ICommandSender;
 import net.minecraft.item.Item;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.client.event.ColorHandlerEvent;
@@ -16,6 +23,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.Logger;
@@ -25,6 +33,10 @@ import youyihj.modularcontroller.crafttweaker.CraftTweakerExtension;
 import youyihj.modularcontroller.util.ModularMachineryHacks;
 
 import java.io.IOException;
+import java.util.Objects;
+
+import static crafttweaker.mc1120.commands.SpecialMessagesChat.getClickableCommandText;
+import static crafttweaker.mc1120.commands.SpecialMessagesChat.getNormalMessage;
 
 @Mod(
         modid = Reference.MOD_ID,
@@ -52,6 +64,26 @@ public class ModularController {
                 logger.error("failed to write controller models", e);
             }
         }
+    }
+
+    @Mod.EventHandler
+    public void onServerStarting(FMLServerStartingEvent event) {
+        CTChatCommand.registerCommand(new CraftTweakerCommand("requirementTypes") {
+            @Override
+            protected void init() {
+                setDescription(getClickableCommandText("\u00A72/ct requirementTypes", "/ct requirementTypes", true), getNormalMessage(" \u00A73Outputs a list of all requirement types in the game to the crafttweaker.log"));
+            }
+
+            @Override
+            public void executeCommand(MinecraftServer server, ICommandSender sender, String[] args) {
+                CraftTweakerAPI.logCommand("Requirement Types: ");
+                RegistriesMM.REQUIREMENT_TYPE_REGISTRY.getKeys().stream()
+                        .map(Objects::toString)
+                        .forEach(CraftTweakerAPI::logCommand);
+
+                sender.sendMessage(SpecialMessagesChat.getLinkToCraftTweakerLog("List of requirement types generated;", sender));
+            }
+        });
     }
 
     @Mod.EventBusSubscriber
