@@ -7,5 +7,7 @@ public class CraftTweakerExtension {
         CraftTweakerAPI.registerClass(CrTMachineRecipeCompleteEvent.class);
         CraftTweakerAPI.registerClass(CrTMachineRecipeStartEvent.class);
         CraftTweakerAPI.registerClass(ExpandEventManger.class);
+        CraftTweakerAPI.registerClass(CrTIOType.class);
+        CraftTweakerAPI.registerClass(RecipeModifierOperation.class);
     }
 }
