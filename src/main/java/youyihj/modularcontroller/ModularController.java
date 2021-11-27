@@ -29,7 +29,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.Logger;
 import youyihj.modularcontroller.block.BlockMMController;
 import youyihj.modularcontroller.core.Reference;
-import youyihj.modularcontroller.crafttweaker.CraftTweakerExtension;
 import youyihj.modularcontroller.util.ModularMachineryHacks;
 
 import java.io.IOException;
@@ -55,7 +54,6 @@ public class ModularController {
     @Mod.EventHandler
     public void preinit(FMLPreInitializationEvent event) {
         logger = event.getModLog();
-        CraftTweakerExtension.registerAllClasses();
         ModularMachineryHacks.loadAllCustomControllers();
         if (FMLCommonHandler.instance().getSide().isClient() && Loader.isModLoaded("resourceloader")) {
             try {

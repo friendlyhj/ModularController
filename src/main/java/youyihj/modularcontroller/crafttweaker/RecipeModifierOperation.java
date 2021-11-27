@@ -1,11 +1,13 @@
 package youyihj.modularcontroller.crafttweaker;
 
+import crafttweaker.annotations.ZenRegister;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
 /**
  * @author youyihj
  */
+@ZenRegister
 @ZenClass("mods.modularcontroller.RecipeModifierOperation")
 public enum RecipeModifierOperation {
     ADDITION(0, false),

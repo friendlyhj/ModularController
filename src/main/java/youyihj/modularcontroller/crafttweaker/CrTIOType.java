@@ -1,9 +1,11 @@
 package youyihj.modularcontroller.crafttweaker;
 
+import crafttweaker.annotations.ZenRegister;
 import hellfirepvp.modularmachinery.common.machine.IOType;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
+@ZenRegister
 @ZenClass("mods.modularcontroller.IOType")
 public enum CrTIOType {
     INPUT(IOType.INPUT),

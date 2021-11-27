@@ -1,6 +1,8 @@
 package youyihj.modularcontroller.event;
 
 import hellfirepvp.modularmachinery.common.block.BlockController;
+import hellfirepvp.modularmachinery.common.crafting.MachineRecipe;
+import hellfirepvp.modularmachinery.common.machine.DynamicMachine;
 import hellfirepvp.modularmachinery.common.util.MiscUtils;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -8,13 +10,17 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.Event;
 
-public class BaseEvent extends Event {
+public class MachineRecipeBaseEvent extends Event {
     protected final World world;
     protected final BlockPos pos;
+    protected final MachineRecipe recipe;
+    protected final DynamicMachine machine;
 
-    public BaseEvent(World world, BlockPos pos) {
+    protected MachineRecipeBaseEvent(World world, BlockPos pos, MachineRecipe recipe, DynamicMachine machine) {
         this.world = world;
         this.pos = pos;
+        this.recipe = recipe;
+        this.machine = machine;
     }
 
     public boolean post() {
@@ -42,5 +48,13 @@ public class BaseEvent extends Event {
 
     public EnumFacing getFacing() {
         return world.getBlockState(pos).getValue(BlockController.FACING);
+    }
+
+    public MachineRecipe getRecipe() {
+        return recipe;
+    }
+
+    public DynamicMachine getMachine() {
+        return machine;
     }
 }
