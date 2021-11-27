@@ -7,6 +7,7 @@
   "priority": 0,
   "refmap": "mixins.modularcontroller.refmap.json",
   "mixins": [
+    "MixinActiveMachineRecipe",
     "MixinDynamicMachine",
     "MixinMachineDeserializer",
     "MixinModifierReplacement",

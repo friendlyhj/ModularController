@@ -1,8 +1,6 @@
 package youyihj.modularcontroller.mixins;
 
 import hellfirepvp.modularmachinery.common.block.BlockController;
-import hellfirepvp.modularmachinery.common.crafting.ActiveMachineRecipe;
-import hellfirepvp.modularmachinery.common.crafting.helper.RecipeCraftingContext;
 import hellfirepvp.modularmachinery.common.machine.DynamicMachine;
 import hellfirepvp.modularmachinery.common.machine.TaggedPositionBlockArray;
 import hellfirepvp.modularmachinery.common.tiles.TileMachineController;
@@ -20,10 +18,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import youyihj.modularcontroller.event.MachineRecipeCompleteEvent;
-import youyihj.modularcontroller.event.MachineRecipeStartEvent;
 import youyihj.modularcontroller.util.IDynamicMachinePatch;
-import youyihj.modularcontroller.util.ModularMachineryHacks;
 
 @Mixin(value = TileMachineController.class)
 public abstract class MixinTileMachineController extends TileEntityRestrictedTick {
@@ -33,9 +28,6 @@ public abstract class MixinTileMachineController extends TileEntityRestrictedTic
 
     @Shadow(remap = false)
     private EnumFacing patternRotation;
-
-    @Shadow(remap = false)
-    private ActiveMachineRecipe activeRecipe;
 
     private boolean receiveRedstone = false;
 
@@ -91,23 +83,5 @@ public abstract class MixinTileMachineController extends TileEntityRestrictedTic
             world.playSound(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, activatedSound, SoundCategory.BLOCKS, 1.0f, 1.0f);
         }
         foundMachine = value;
-    }
-
-    @Inject(method = "doRestrictedTick", at = @At(value = "INVOKE", target = "Lhellfirepvp/modularmachinery/common/crafting/ActiveMachineRecipe;reset()V"), remap = false)
-    private void postCompleteEvent(CallbackInfo ci) {
-        new MachineRecipeCompleteEvent(activeRecipe.getRecipe(), foundMachine, pos, world).post();
-    }
-
-    @Redirect(method = "doRestrictedTick", at = @At(value = "INVOKE", target = "Lhellfirepvp/modularmachinery/common/crafting/helper/RecipeCraftingContext;canStartCrafting()Lhellfirepvp/modularmachinery/common/crafting/helper/RecipeCraftingContext$CraftingCheckResult;"), remap = false)
-    private RecipeCraftingContext.CraftingCheckResult postStartEvent(RecipeCraftingContext context) {
-        RecipeCraftingContext.CraftingCheckResult originResult = context.canStartCrafting();
-        if (originResult.isFailure())
-            return originResult;
-        MachineRecipeStartEvent event = new MachineRecipeStartEvent(context);
-        if (event.post()) {
-            return ModularMachineryHacks.createErrorResult(event.getFailureMessage(), 0.98f);
-        } else {
-            return originResult;
-        }
     }
 }

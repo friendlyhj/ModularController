@@ -9,4 +9,5 @@ public class MachineRecipeCompleteEvent extends MachineRecipeBaseEvent {
     public MachineRecipeCompleteEvent(MachineRecipe recipe, DynamicMachine machine, BlockPos pos, World world) {
         super(world, pos, recipe, machine);
     }
+
 }
