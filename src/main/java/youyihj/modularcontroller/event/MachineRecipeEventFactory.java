@@ -19,7 +19,7 @@ public class MachineRecipeEventFactory {
     }
 
     public static RecipeCraftingContext.CraftingCheckResult onStarted(RecipeCraftingContext context) {
-        RecipeCraftingContext.CraftingCheckResult originResult = context.canStartCrafting();
+        RecipeCraftingContext.CraftingCheckResult originResult = context.canStartCrafting((req -> true));
         if (originResult.isFailure())
             return originResult;
         MachineRecipeStartEvent event = new MachineRecipeStartEvent(context);

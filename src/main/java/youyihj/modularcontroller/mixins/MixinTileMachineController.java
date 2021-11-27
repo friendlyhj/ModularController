@@ -1,6 +1,7 @@
 package youyihj.modularcontroller.mixins;
 
 import hellfirepvp.modularmachinery.common.block.BlockController;
+import hellfirepvp.modularmachinery.common.crafting.helper.RecipeCraftingContext;
 import hellfirepvp.modularmachinery.common.machine.DynamicMachine;
 import hellfirepvp.modularmachinery.common.machine.TaggedPositionBlockArray;
 import hellfirepvp.modularmachinery.common.tiles.TileMachineController;
@@ -18,6 +19,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import youyihj.modularcontroller.event.MachineRecipeEventFactory;
 import youyihj.modularcontroller.util.IDynamicMachinePatch;
 
 @Mixin(value = TileMachineController.class)
@@ -70,6 +72,11 @@ public abstract class MixinTileMachineController extends TileEntityRestrictedTic
             this.foundMachine = null;
             this.foundReplacements = null;
         }
+    }
+
+    @Redirect(method = "doRestrictedTick", at = @At(value = "INVOKE", target = "Lhellfirepvp/modularmachinery/common/crafting/helper/RecipeCraftingContext;canStartCrafting()Lhellfirepvp/modularmachinery/common/crafting/helper/RecipeCraftingContext$CraftingCheckResult;"), remap = false)
+    private RecipeCraftingContext.CraftingCheckResult postStartEvent(RecipeCraftingContext context) {
+        return MachineRecipeEventFactory.onStarted(context);
     }
 
     @Redirect(
