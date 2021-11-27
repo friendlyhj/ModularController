@@ -29,6 +29,12 @@ public abstract class MixinTileMachineController extends TileEntityRestrictedTic
     @Shadow(remap = false)
     private EnumFacing patternRotation;
 
+    @Shadow(remap = false)
+    private TaggedPositionBlockArray foundPattern;
+
+    @Shadow(remap = false)
+    private DynamicMachine.ModifierReplacementMap foundReplacements;
+
     private boolean receiveRedstone = false;
 
     @Inject(method = "doRestrictedTick", at = @At(value = "HEAD"), cancellable = true, remap = false)
@@ -54,13 +60,15 @@ public abstract class MixinTileMachineController extends TileEntityRestrictedTic
         return ((IDynamicMachinePatch) foundMachine).getController().getDefaultState().withProperty(BlockController.FACING, patternRotation);
     }
 
-    @Inject(method = "matchesRotation", at = @At(value = "RETURN"), cancellable = true, remap = false)
+    @Inject(method = "matchesRotation", at = @At(value = "HEAD"), cancellable = true, remap = false)
     private void injectMatchesRotation(TaggedPositionBlockArray pattern, DynamicMachine machine, CallbackInfoReturnable<Boolean> cir) {
-        if (cir.getReturnValue()) {
-            BlockController controller = ((IDynamicMachinePatch) machine).getController();
-            if (controller != world.getBlockState(pos).getBlock()) {
-                cir.setReturnValue(false);
-            }
+        BlockController controller = ((IDynamicMachinePatch) machine).getController();
+        if (controller != world.getBlockState(pos).getBlock()) {
+            cir.setReturnValue(false);
+            this.foundPattern = null;
+            this.patternRotation = null;
+            this.foundMachine = null;
+            this.foundReplacements = null;
         }
     }
 
