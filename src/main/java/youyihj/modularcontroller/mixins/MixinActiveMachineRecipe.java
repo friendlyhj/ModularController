@@ -18,14 +18,13 @@ import youyihj.modularcontroller.event.MachineRecipeEventFactory;
  * @author youyihj
  */
 @Mixin(value = ActiveMachineRecipe.class, remap = false)
-public class MixinActiveMachineRecipe {
+public abstract class MixinActiveMachineRecipe {
     @Shadow
     @Final
     private MachineRecipe recipe;
 
     @Shadow
     private int tick;
-    private RecipeCraftingContext.CraftingCheckResult failedResult;
 
     @Inject(method = "complete", at = @At("RETURN"))
     private void postCompleteEvent(RecipeCraftingContext completionContext, CallbackInfo ci) {
