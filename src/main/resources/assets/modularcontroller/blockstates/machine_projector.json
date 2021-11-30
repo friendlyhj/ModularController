@@ -1,0 +1,16 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "minecraft:builtin/generated",
+    "textures": {
+      "layer0": "modularcontroller:machine_projector"
+    }
+  },
+  "variants": {
+    "inventory": [
+      {
+        "transform": "forge:default-item"
+      }
+    ]
+  }
+}

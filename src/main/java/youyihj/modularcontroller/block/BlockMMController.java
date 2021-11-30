@@ -1,5 +1,6 @@
 package youyihj.modularcontroller.block;
 
+import com.google.common.collect.Lists;
 import hellfirepvp.modularmachinery.ModularMachinery;
 import hellfirepvp.modularmachinery.common.block.BlockController;
 import hellfirepvp.modularmachinery.common.item.ItemDynamicColor;
@@ -20,10 +21,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class BlockMMController extends BlockController implements ItemDynamicColor {
 
     private final ControllerInformation information;
+    private final List<String> machineIDs;
 
     public static final Map<String, BlockMMController> CONTROLLERS = new HashMap<>();
     public static final List<Item> CONTROLLER_ITEMS = new ArrayList<>();
@@ -33,11 +36,13 @@ public class BlockMMController extends BlockController implements ItemDynamicCol
         this.setRegistryName(information.getName());
         this.fullBlock = information.isFullBlock();
         this.lightOpacity = this.fullBlock ? 255 : 0;
+        this.machineIDs = Lists.newArrayList(information.getMachineName());
     }
 
     public static BlockMMController getOrCreate(ControllerInformation information) {
         if (CONTROLLERS.containsKey(information.getName())) {
-            return CONTROLLERS.get(information.getName());
+            BlockMMController existingController = CONTROLLERS.get(information.getName());
+            existingController.machineIDs.add(information.getMachineName());
         }
         BlockMMController controller = new BlockMMController(information);
 
@@ -67,8 +72,11 @@ public class BlockMMController extends BlockController implements ItemDynamicCol
         return information.getColor();
     }
 
-    public DynamicMachine getAssociatedMachine() {
-        return MachineRegistry.getRegistry().getMachine(new ResourceLocation(ModularMachinery.MODID, information.getMachineName()));
+    public List<DynamicMachine> getAssociatedMachines() {
+        return machineIDs.stream()
+                .map(id -> new ResourceLocation(ModularMachinery.MODID, id))
+                .map(MachineRegistry.getRegistry()::getMachine)
+                .collect(Collectors.toList());
     }
 
     @Override

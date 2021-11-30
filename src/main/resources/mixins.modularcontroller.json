@@ -15,6 +15,7 @@
     "MixinTileMachineController"
   ],
   "client": [
+    "MixinBlockArrayPreviewRenderHelper",
     "MixinDynamicMachineRenderContext",
     "MixinGuiScreenBlueprint",
     "MixinStructurePreviewWrapper"

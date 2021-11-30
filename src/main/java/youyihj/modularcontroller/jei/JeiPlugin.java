@@ -15,7 +15,9 @@ public class JeiPlugin implements IModPlugin {
     @Override
     public void register(IModRegistry registry) {
         BlockMMController.CONTROLLERS.values().forEach(controller ->
-                registry.addRecipeCatalyst(new ItemStack(controller), ModIntegrationJEI.getCategoryStringFor(controller.getAssociatedMachine()))
+                controller.getAssociatedMachines().forEach(machine ->
+                        registry.addRecipeCatalyst(new ItemStack(controller), ModIntegrationJEI.getCategoryStringFor(machine))
+                )
         );
     }
 }

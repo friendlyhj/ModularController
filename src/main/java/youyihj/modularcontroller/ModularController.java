@@ -22,6 +22,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -29,6 +30,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.Logger;
 import youyihj.modularcontroller.block.BlockMMController;
 import youyihj.modularcontroller.core.Reference;
+import youyihj.modularcontroller.item.MachineProjector;
+import youyihj.modularcontroller.proxy.CommonProxy;
 import youyihj.modularcontroller.util.ModularMachineryHacks;
 
 import java.io.IOException;
@@ -50,6 +53,9 @@ public class ModularController {
     public static ResourceLocation rl(String path) {
         return new ResourceLocation(Reference.MOD_ID, path);
     }
+
+    @SidedProxy(clientSide = "youyihj.modularcontroller.proxy.ClientProxy", serverSide = "youyihj.modularcontroller.proxy.CommonProxy")
+    public static CommonProxy proxy;
 
     @Mod.EventHandler
     public void preinit(FMLPreInitializationEvent event) {
@@ -98,6 +104,7 @@ public class ModularController {
         @SubscribeEvent
         public static void registerItems(RegistryEvent.Register<Item> event) {
             BlockMMController.CONTROLLER_ITEMS.forEach(event.getRegistry()::register);
+            event.getRegistry().register(MachineProjector.INSTANCE);
         }
 
         @SubscribeEvent
@@ -116,6 +123,7 @@ public class ModularController {
         public static void registerModels(ModelRegistryEvent event) {
             OBJLoader.INSTANCE.addDomain(Reference.MOD_ID);
             BlockMMController.CONTROLLER_ITEMS.forEach(ModelRegistry::registerItemModel);
+            ModelRegistry.registerItemModel(MachineProjector.INSTANCE);
         }
 
         @SubscribeEvent
