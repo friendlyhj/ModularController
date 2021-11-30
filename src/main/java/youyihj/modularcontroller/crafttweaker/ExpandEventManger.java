@@ -11,12 +11,14 @@ import stanhebben.zenscript.annotations.ZenExpansion;
 import stanhebben.zenscript.annotations.ZenMethod;
 import youyihj.modularcontroller.event.MachineRecipeCompleteEvent;
 import youyihj.modularcontroller.event.MachineRecipeStartEvent;
+import youyihj.modularcontroller.event.MachineRecipeTickEvent;
 
 @ZenRegister
 @ZenExpansion("crafttweaker.events.IEventManager")
 public class ExpandEventManger {
     private static final EventList<CrTMachineRecipeCompleteEvent> elMachineRecipeComplete = new EventList<>();
     private static final EventList<CrTMachineRecipeStartEvent> elMachineRecipeStart = new EventList<>();
+    private static final EventList<CrTMachineRecipeTickEvent> elMachineRecipeTick = new EventList<>();
 
     @ZenMethod
     public static IEventHandle onMachineRecipeComplete(IEventManager manager, IEventHandler<CrTMachineRecipeCompleteEvent> ev) {
@@ -26,6 +28,11 @@ public class ExpandEventManger {
     @ZenMethod
     public static IEventHandle onMachineRecipeStart(IEventManager manager, IEventHandler<CrTMachineRecipeStartEvent> ev) {
         return elMachineRecipeStart.add(ev);
+    }
+
+    @ZenMethod
+    public static IEventHandle onMachineRecipeTick(IEventManager manager, IEventHandler<CrTMachineRecipeTickEvent> ev) {
+        return elMachineRecipeTick.add(ev);
     }
 
     @Mod.EventBusSubscriber
@@ -41,6 +48,13 @@ public class ExpandEventManger {
         public static void onMachineRecipeCrafting(MachineRecipeStartEvent event) {
             if (elMachineRecipeStart.hasHandlers()) {
                 elMachineRecipeStart.publish(new CrTMachineRecipeStartEvent(event));
+            }
+        }
+
+        @SubscribeEvent
+        public static void onMachineRecipeTick(MachineRecipeTickEvent event) {
+            if (elMachineRecipeTick.hasHandlers()) {
+                elMachineRecipeTick.publish(new CrTMachineRecipeTickEvent(event));
             }
         }
     }
