@@ -22,7 +22,7 @@ public class MixinBlockArrayPreviewRenderHelper {
         }
     }
 
-    @Inject(method = "clearSelection", at = @At("RETURN"))
+    @Inject(method = "clearSelection", at = @At("RETURN"), remap = false)
     private void resetExtraStuff(CallbackInfo ci) {
         ModularController.proxy.reset();
     }

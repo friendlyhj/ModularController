@@ -21,13 +21,14 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void renderMachinePreview(BlockMMController controller, BlockPos pos) {
+        BlockArrayPreviewRenderHelper renderHelper = getBlockArrayPreviewRenderHelper();
         if (!Objects.equal(renderPos, pos)) {
-            getBlockArrayPreviewRenderHelper().unloadWorld();
+            renderHelper.unloadWorld();
         }
         renderPos = pos;
         List<DynamicMachine> machines = controller.getAssociatedMachines();
         if (machineIndex >= machines.size()) {
-            getBlockArrayPreviewRenderHelper().unloadWorld();
+            renderHelper.unloadWorld();
         } else {
             DynamicMachine machine = machines.get(machineIndex++);
             EntityPlayerSP player = Minecraft.getMinecraft().player;
@@ -41,7 +42,8 @@ public class ClientProxy extends CommonProxy {
             }
             DynamicMachineRenderContext context = DynamicMachineRenderContext.createContext(machine);
             context.snapSamples();
-            getBlockArrayPreviewRenderHelper().startPreview(context);
+            renderHelper.startPreview(context);
+            renderHelper.placePreview();
         }
     }
 
@@ -49,7 +51,6 @@ public class ClientProxy extends CommonProxy {
     public void reset() {
         renderPos = null;
         machineIndex = 0;
-        getBlockArrayPreviewRenderHelper().unloadWorld();
     }
 
     private BlockArrayPreviewRenderHelper getBlockArrayPreviewRenderHelper() {
