@@ -43,6 +43,7 @@ public class BlockMMController extends BlockController implements ItemDynamicCol
         if (CONTROLLERS.containsKey(information.getName())) {
             BlockMMController existingController = CONTROLLERS.get(information.getName());
             existingController.machineIDs.add(information.getMachineName());
+            return existingController;
         }
         BlockMMController controller = new BlockMMController(information);
 
