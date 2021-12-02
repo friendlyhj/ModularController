@@ -5,3 +5,4 @@ modularcontroller.sound.machine.steam=Machine Activated (Steam Style)
 item.modularcontroller.machine_projector.name=Machine Projector
 message.modularcontroller.project=Projecting the structure of %s
 message.modularcontroller.next_right_click=Right-click the controller again to stop projecting or toggle to the next machine
+tooltip.modularcontroller.machine_projector=Sneak and right-click the controller to project the structure of the machine

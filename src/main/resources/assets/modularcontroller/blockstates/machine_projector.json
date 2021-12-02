@@ -3,7 +3,7 @@
   "defaults": {
     "model": "minecraft:builtin/generated",
     "textures": {
-      "layer0": "modularcontroller:machine_projector"
+      "layer0": "modularcontroller:items/machine_projector"
     }
   },
   "variants": {

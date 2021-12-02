@@ -5,3 +5,4 @@ modularcontroller.sound.machine.steam=机器激活（蒸汽风格）
 item.modularcontroller.machine_projector.name=机器结构投影仪
 message.modularcontroller.project=正在投影%s的结构
 message.modularcontroller.next_right_click=再次右键控制器以结束投影或切换至下一个机器
+tooltip.modularcontroller.machine_projector=潜行加右键控制器以显示机器结构投影
