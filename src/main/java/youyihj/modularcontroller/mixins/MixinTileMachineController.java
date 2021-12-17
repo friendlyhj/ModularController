@@ -3,9 +3,11 @@ package youyihj.modularcontroller.mixins;
 import hellfirepvp.modularmachinery.common.block.BlockController;
 import hellfirepvp.modularmachinery.common.crafting.helper.RecipeCraftingContext;
 import hellfirepvp.modularmachinery.common.machine.DynamicMachine;
+import hellfirepvp.modularmachinery.common.machine.MachineRegistry;
 import hellfirepvp.modularmachinery.common.machine.TaggedPositionBlockArray;
 import hellfirepvp.modularmachinery.common.tiles.TileMachineController;
 import hellfirepvp.modularmachinery.common.tiles.base.TileEntityRestrictedTick;
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.SoundCategory;
@@ -19,8 +21,11 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import youyihj.modularcontroller.block.BlockMMController;
 import youyihj.modularcontroller.event.MachineRecipeEventFactory;
 import youyihj.modularcontroller.util.IDynamicMachinePatch;
+
+import java.util.Iterator;
 
 @Mixin(value = TileMachineController.class)
 public abstract class MixinTileMachineController extends TileEntityRestrictedTick {
@@ -38,6 +43,18 @@ public abstract class MixinTileMachineController extends TileEntityRestrictedTic
     private DynamicMachine.ModifierReplacementMap foundReplacements;
 
     private boolean receiveRedstone = false;
+
+    private Iterable<DynamicMachine> machines;
+
+    @Override
+    public void onLoad() {
+        Block block = world.getBlockState(pos).getBlock();
+        if (block instanceof BlockMMController) {
+            machines = ((BlockMMController) block).getAssociatedMachines();
+        } else {
+            machines = MachineRegistry.getRegistry();
+        }
+    }
 
     @Inject(method = "doRestrictedTick", at = @At(value = "HEAD"), cancellable = true, remap = false)
     private void injectRestrictedTick(CallbackInfo ci) {
@@ -60,6 +77,12 @@ public abstract class MixinTileMachineController extends TileEntityRestrictedTic
     @ModifyArg(method = "checkStructure", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;setBlockState(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/IBlockState;)Z"))
     private IBlockState modifyStateToCheckStructure(IBlockState state) {
         return ((IDynamicMachinePatch) foundMachine).getController().getDefaultState().withProperty(BlockController.FACING, patternRotation);
+    }
+
+    @Redirect(method = "checkStructure", at = @At(value = "INVOKE", target = "Lhellfirepvp/modularmachinery/common/machine/MachineRegistry;iterator()Ljava/util/Iterator;"), remap = false)
+    private Iterator<DynamicMachine> changeMachinesToCheck(MachineRegistry instance) {
+
+        return machines.iterator();
     }
 
     @Inject(method = "matchesRotation", at = @At(value = "HEAD"), cancellable = true, remap = false)
