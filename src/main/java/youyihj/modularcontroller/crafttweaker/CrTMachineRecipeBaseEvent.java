@@ -15,7 +15,7 @@ import youyihj.modularcontroller.event.MachineRecipeBaseEvent;
  */
 @ZenRegister
 @ZenClass("mods.modularcontroller.MachineRecipeBaseEvent")
-public class CrTMachineRecipeBaseEvent {
+public abstract class CrTMachineRecipeBaseEvent {
     private final MachineRecipeBaseEvent event;
 
     public CrTMachineRecipeBaseEvent(MachineRecipeBaseEvent event) {
@@ -51,4 +51,7 @@ public class CrTMachineRecipeBaseEvent {
     public IBlockPos getOffsetByFacing(int x, int y, int z) {
         return CraftTweakerMC.getIBlockPos(event.getOffsetByFacing(x, y, z));
     }
+
+    @ZenMethod
+    public abstract void addModifier(String requirementType, float amount, RecipeModifierOperation operation);
 }

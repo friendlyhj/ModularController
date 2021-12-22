@@ -3,6 +3,7 @@ package youyihj.modularcontroller.event;
 import hellfirepvp.modularmachinery.common.block.BlockController;
 import hellfirepvp.modularmachinery.common.crafting.MachineRecipe;
 import hellfirepvp.modularmachinery.common.machine.DynamicMachine;
+import hellfirepvp.modularmachinery.common.modifier.RecipeModifier;
 import hellfirepvp.modularmachinery.common.util.MiscUtils;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -10,7 +11,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.Event;
 
-public class MachineRecipeBaseEvent extends Event {
+public abstract class MachineRecipeBaseEvent extends Event {
     protected final World world;
     protected final BlockPos pos;
     protected final MachineRecipe recipe;
@@ -57,4 +58,6 @@ public class MachineRecipeBaseEvent extends Event {
     public DynamicMachine getMachine() {
         return machine;
     }
+
+    public abstract void addModifier(RecipeModifier modifier);
 }

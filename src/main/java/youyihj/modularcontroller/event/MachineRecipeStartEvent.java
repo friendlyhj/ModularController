@@ -29,6 +29,7 @@ public class MachineRecipeStartEvent extends MachineRecipeBaseEvent {
         return failureMessage;
     }
 
+    @Override
     public void addModifier(RecipeModifier modifier) {
         craftingContext.addModifier(new ModifierReplacement(null, Collections.singletonList(modifier), ""));
     }

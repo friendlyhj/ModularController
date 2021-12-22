@@ -4,6 +4,7 @@ import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.event.IEventCancelable;
 import hellfirepvp.modularmachinery.common.crafting.requirement.type.RequirementType;
 import hellfirepvp.modularmachinery.common.lib.RegistriesMM;
+import hellfirepvp.modularmachinery.common.machine.IOType;
 import hellfirepvp.modularmachinery.common.modifier.RecipeModifier;
 import net.minecraft.util.ResourceLocation;
 import stanhebben.zenscript.annotations.ZenClass;
@@ -38,9 +39,9 @@ public class CrTMachineRecipeStartEvent extends CrTMachineRecipeBaseEvent implem
         event.setCanceled(canceled);
     }
 
-    @ZenMethod
-    public void addModifier(String requirementType, CrTIOType ioType, float amount, RecipeModifierOperation operation) {
+    @Override
+    public void addModifier(String requirementType, float amount, RecipeModifierOperation operation) {
         RequirementType<?, ?> type = RegistriesMM.REQUIREMENT_TYPE_REGISTRY.getValue(new ResourceLocation(requirementType));
-        event.addModifier(new RecipeModifier(type, ioType.getInternal(), amount, operation.getInternal(), operation.affectChance()));
+        event.addModifier(new RecipeModifier(type, IOType.INPUT, amount, operation.getInternal(), operation.affectChance()));
     }
 }

@@ -2,6 +2,7 @@ package youyihj.modularcontroller.event;
 
 import hellfirepvp.modularmachinery.common.crafting.MachineRecipe;
 import hellfirepvp.modularmachinery.common.machine.DynamicMachine;
+import hellfirepvp.modularmachinery.common.modifier.RecipeModifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.eventhandler.Cancelable;
@@ -30,5 +31,10 @@ public class MachineRecipeTickEvent extends MachineRecipeBaseEvent {
 
     public int getTick() {
         return tick;
+    }
+
+    @Override
+    public void addModifier(RecipeModifier modifier) {
+        throw new UnsupportedOperationException("Modifier addition is not supported in tick event.");
     }
 }

@@ -2,10 +2,7 @@ package youyihj.modularcontroller.event;
 
 import hellfirepvp.modularmachinery.common.crafting.MachineRecipe;
 import hellfirepvp.modularmachinery.common.crafting.helper.RecipeCraftingContext;
-import hellfirepvp.modularmachinery.common.machine.DynamicMachine;
 import hellfirepvp.modularmachinery.common.tiles.TileMachineController;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import youyihj.modularcontroller.util.ModularMachineryHacks;
 
 import javax.annotation.Nullable;
@@ -14,8 +11,8 @@ import javax.annotation.Nullable;
  * @author youyihj
  */
 public class MachineRecipeEventFactory {
-    public static void onCompleted(MachineRecipe recipe, DynamicMachine machine, BlockPos pos, World world) {
-        new MachineRecipeCompleteEvent(recipe, machine, pos, world).post();
+    public static void onCompleted(RecipeCraftingContext context) {
+        new MachineRecipeCompleteEvent(context).post();
     }
 
     public static RecipeCraftingContext.CraftingCheckResult onStarted(RecipeCraftingContext context) {

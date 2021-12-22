@@ -14,7 +14,7 @@ import youyihj.modularcontroller.proxy.ClientProxy;
  * @author youyihj
  */
 @Mixin(value = BlockArrayPreviewRenderHelper.class)
-public class MixinBlockArrayPreviewRenderHelper {
+public abstract class MixinBlockArrayPreviewRenderHelper {
     @Inject(method = "startPreview", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/entity/EntityPlayerSP;sendMessage(Lnet/minecraft/util/text/ITextComponent;)V"), cancellable = true)
     private void disableMessageCalledByMoC(DynamicMachineRenderContext currentContext, CallbackInfoReturnable<Boolean> cir) {
         if (new Exception().getStackTrace()[2].getClassName().equals(ClientProxy.class.getName())) {

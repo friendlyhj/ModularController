@@ -1,5 +1,6 @@
 package youyihj.modularcontroller.crafttweaker;
 
+import crafttweaker.CraftTweakerAPI;
 import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.event.IEventCancelable;
 import stanhebben.zenscript.annotations.ZenClass;
@@ -38,5 +39,10 @@ public class CrTMachineRecipeTickEvent extends CrTMachineRecipeBaseEvent impleme
     @ZenMethod
     public void setFailed(String message) {
         event.setFailureMessage(message);
+    }
+
+    @Override
+    public void addModifier(String requirementType, float amount, RecipeModifierOperation operation) {
+        CraftTweakerAPI.logError("", new UnsupportedOperationException("Modifier addition is not supported in tick event."));
     }
 }
