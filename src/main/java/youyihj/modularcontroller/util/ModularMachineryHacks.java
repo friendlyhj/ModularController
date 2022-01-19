@@ -5,7 +5,9 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
 import hellfirepvp.modularmachinery.ModularMachinery;
 import hellfirepvp.modularmachinery.client.util.BlockArrayRenderHelper;
+import hellfirepvp.modularmachinery.common.CommonProxy;
 import hellfirepvp.modularmachinery.common.crafting.helper.RecipeCraftingContext;
+import hellfirepvp.modularmachinery.common.machine.MachineLoader;
 import hellfirepvp.modularmachinery.common.util.BlockArray;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.IResource;
@@ -24,10 +26,10 @@ import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 
 public final class ModularMachineryHacks {
+    private static final Gson GSON = new GsonBuilder().registerTypeAdapter(BlockMMController.class, MachineJsonPreReader.INSTANCE).create();
     private static Constructor<RecipeCraftingContext.CraftingCheckResult> craftingCheckResultConstructor;
     private static Method checkResultAddErrorMethod;
     private static Method checkResultSetValidityMethod;
-    private static final Gson GSON = new GsonBuilder().registerTypeAdapter(BlockMMController.class, MachineJsonPreReader.INSTANCE).create();
 
     static {
         try {
@@ -44,21 +46,13 @@ public final class ModularMachineryHacks {
     }
 
     public static void loadAllCustomControllers() {
-        File machineryDir = new File("config/modularmachinery/machinery");
-        if (machineryDir.exists() && machineryDir.isDirectory()) {
-            File[] files = machineryDir.listFiles();
-            if (files != null) {
-                for (File file : files) {
-                    if (file.getName().endsWith(".json")) {
-                        try (InputStreamReader isr = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)) {
-                            GSON.fromJson(isr, BlockMMController.class);
-                        } catch (JsonParseException e) {
-                            ModularController.logger.error(file + " is not a valid machine json", e);
-                        } catch (IOException e) {
-                            ModularController.logger.error("failed to load custom controllers", e);
-                        }
-                    }
-                }
+        for (File file : MachineLoader.discoverDirectory(CommonProxy.dataHolder.getMachineryDirectory()).get(MachineLoader.FileType.MACHINE)) {
+            try (InputStreamReader isr = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)) {
+                GSON.fromJson(isr, BlockMMController.class);
+            } catch (JsonParseException e) {
+                ModularController.logger.error(file + " is not a valid machine json", e);
+            } catch (IOException e) {
+                ModularController.logger.error("failed to load custom controllers", e);
             }
         }
     }

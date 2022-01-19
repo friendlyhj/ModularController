@@ -8,8 +8,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraftforge.fml.common.Loader;
+import youyihj.modularcontroller.ModularController;
 import youyihj.modularcontroller.block.BlockMMController;
+import youyihj.modularcontroller.util.ModularMachineryHacks;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -51,6 +55,18 @@ public class ClientProxy extends CommonProxy {
     public void reset() {
         renderPos = null;
         machineIndex = 0;
+    }
+
+    @Override
+    public void preInit() {
+        super.preInit();
+        if (Loader.isModLoaded("resourceloader")) {
+            try {
+                ModularMachineryHacks.ClientStuff.writeAllCustomControllerModels();
+            } catch (IOException e) {
+                ModularController.logger.error("failed to write controller models", e);
+            }
+        }
     }
 
     private BlockArrayPreviewRenderHelper getBlockArrayPreviewRenderHelper() {

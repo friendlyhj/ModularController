@@ -19,8 +19,6 @@ import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -32,9 +30,7 @@ import youyihj.modularcontroller.block.BlockMMController;
 import youyihj.modularcontroller.core.Reference;
 import youyihj.modularcontroller.item.MachineProjector;
 import youyihj.modularcontroller.proxy.CommonProxy;
-import youyihj.modularcontroller.util.ModularMachineryHacks;
 
-import java.io.IOException;
 import java.util.Objects;
 
 import static crafttweaker.mc1120.commands.SpecialMessagesChat.getClickableCommandText;
@@ -60,14 +56,7 @@ public class ModularController {
     @Mod.EventHandler
     public void preinit(FMLPreInitializationEvent event) {
         logger = event.getModLog();
-        ModularMachineryHacks.loadAllCustomControllers();
-        if (FMLCommonHandler.instance().getSide().isClient() && Loader.isModLoaded("resourceloader")) {
-            try {
-                ModularMachineryHacks.ClientStuff.writeAllCustomControllerModels();
-            } catch (IOException e) {
-                logger.error("failed to write controller models", e);
-            }
-        }
+        proxy.preInit();
     }
 
     @Mod.EventHandler
