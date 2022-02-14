@@ -7,6 +7,7 @@ import hellfirepvp.modularmachinery.common.machine.IOType;
 import hellfirepvp.modularmachinery.common.modifier.RecipeModifier;
 import net.minecraft.util.ResourceLocation;
 import stanhebben.zenscript.annotations.ZenClass;
+import youyihj.modularcontroller.core.RecipeModifierOperation;
 import youyihj.modularcontroller.event.MachineRecipeCompleteEvent;
 
 @ZenRegister

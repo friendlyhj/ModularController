@@ -4,6 +4,7 @@ import crafttweaker.CraftTweakerAPI;
 import crafttweaker.mc1120.commands.CTChatCommand;
 import crafttweaker.mc1120.commands.CraftTweakerCommand;
 import crafttweaker.mc1120.commands.SpecialMessagesChat;
+import hellfirepvp.modularmachinery.common.crafting.requirement.type.RequirementType;
 import hellfirepvp.modularmachinery.common.lib.RegistriesMM;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -25,8 +26,10 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.registries.IForgeRegistry;
 import org.apache.logging.log4j.Logger;
 import youyihj.modularcontroller.block.BlockMMController;
+import youyihj.modularcontroller.condition.RequirementConditional;
 import youyihj.modularcontroller.core.Reference;
 import youyihj.modularcontroller.item.MachineProjector;
 import youyihj.modularcontroller.proxy.CommonProxy;
@@ -103,6 +106,16 @@ public class ModularController {
                     MACHINE_ACTIVATED_SC_FICTION,
                     MACHINE_ACTIVATED_STEAM
             );
+        }
+
+        @SubscribeEvent
+        @SuppressWarnings({"unchecked", "rawtypes"})
+        public static void onRequirementTypeRegister(RegistryEvent.Register event) {
+            if (event.getGenericType() != RequirementType.class)
+                return;
+            IForgeRegistry<RequirementType<?, ?>> registry = event.getRegistry();
+            registry.getValuesCollection().forEach(RequirementConditional.Type::new);
+            registry.registerAll(RequirementConditional.Type.getAllTypes().toArray(new RequirementType[0]));
         }
     }
 
