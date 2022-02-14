@@ -43,7 +43,7 @@ public class CrTMachineRecipeTickEvent extends CrTMachineRecipeBaseEvent impleme
     }
 
     @Override
-    public void addModifier(String requirementType, float amount, RecipeModifierOperation operation) {
+    public void addModifier(String requirementType, RecipeModifierOperation.WithAmount modifier) {
         CraftTweakerAPI.logError("", new UnsupportedOperationException("Modifier addition is not supported in tick event."));
     }
 }

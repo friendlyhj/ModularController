@@ -41,8 +41,9 @@ public class CrTMachineRecipeStartEvent extends CrTMachineRecipeBaseEvent implem
     }
 
     @Override
-    public void addModifier(String requirementType, float amount, RecipeModifierOperation operation) {
+    public void addModifier(String requirementType, RecipeModifierOperation.WithAmount modifier) {
         RequirementType<?, ?> type = RegistriesMM.REQUIREMENT_TYPE_REGISTRY.getValue(new ResourceLocation(requirementType));
-        event.addModifier(new RecipeModifier(type, IOType.INPUT, amount, operation.getInternal(), operation.affectChance()));
+        RecipeModifierOperation operation = modifier.getOperation();
+        event.addModifier(new RecipeModifier(type, IOType.INPUT, modifier.getModifier(), operation.getInternal(), operation.affectChance()));
     }
 }

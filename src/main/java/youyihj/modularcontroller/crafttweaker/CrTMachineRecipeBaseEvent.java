@@ -54,5 +54,5 @@ public abstract class CrTMachineRecipeBaseEvent {
     }
 
     @ZenMethod
-    public abstract void addModifier(String requirementType, float amount, RecipeModifierOperation operation);
+    public abstract void addModifier(String requirementType, RecipeModifierOperation.WithAmount modifier);
 }
