@@ -5,6 +5,7 @@ import hellfirepvp.modularmachinery.common.integration.preview.StructurePreviewW
 import hellfirepvp.modularmachinery.common.machine.DynamicMachine;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.ingredients.VanillaTypes;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
@@ -32,6 +33,12 @@ public abstract class MixinStructurePreviewWrapper {
         list.set(0, new Tuple<>(ctrl, "1x " + Iterables.getFirst(ctrl.getTooltip(Minecraft.getMinecraft().player,
                 Minecraft.getMinecraft().gameSettings.advancedItemTooltips ? ITooltipFlag.TooltipFlags.ADVANCED : ITooltipFlag.TooltipFlags.NORMAL), "")));
         return list;
+    }
+
+
+    @ModifyArg(method = "drawInfo", at = @At(value = "INVOKE", target = "Lhellfirepvp/modularmachinery/common/util/BlockArray$IBlockStateDescriptor;<init>(Lnet/minecraft/block/state/IBlockState;)V"))
+    private IBlockState changeController(IBlockState state) {
+        return ((IDynamicMachinePatch) machine).getController().getDefaultState();
     }
 
     @Inject(method = "getIngredients", at = @At(value = "RETURN"))

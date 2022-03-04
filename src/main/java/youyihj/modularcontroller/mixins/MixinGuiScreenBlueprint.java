@@ -3,6 +3,7 @@ package youyihj.modularcontroller.mixins;
 import com.google.common.collect.Iterables;
 import hellfirepvp.modularmachinery.client.gui.GuiScreenBlueprint;
 import hellfirepvp.modularmachinery.common.machine.DynamicMachine;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
@@ -28,5 +29,10 @@ public abstract class MixinGuiScreenBlueprint {
         list.set(0, new Tuple<>(ctrl, "1x " + Iterables.getFirst(ctrl.getTooltip(Minecraft.getMinecraft().player,
                 Minecraft.getMinecraft().gameSettings.advancedItemTooltips ? ITooltipFlag.TooltipFlags.ADVANCED : ITooltipFlag.TooltipFlags.NORMAL), "")));
         return list;
+    }
+
+    @ModifyArg(method = "render2DHover", at = @At(value = "INVOKE", target = "Lhellfirepvp/modularmachinery/common/util/BlockArray$IBlockStateDescriptor;<init>(Lnet/minecraft/block/state/IBlockState;)V"))
+    private IBlockState changeController(IBlockState state) {
+        return ((IDynamicMachinePatch) machine).getController().getDefaultState();
     }
 }
