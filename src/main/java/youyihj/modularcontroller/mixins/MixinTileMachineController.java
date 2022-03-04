@@ -22,6 +22,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import youyihj.modularcontroller.block.BlockMMController;
+import youyihj.modularcontroller.event.MachineActivatedEvent;
 import youyihj.modularcontroller.event.MachineRecipeEventFactory;
 import youyihj.modularcontroller.util.IDynamicMachinePatch;
 
@@ -114,11 +115,8 @@ public abstract class MixinTileMachineController extends TileEntityRestrictedTic
             remap = false
     )
     private void redirectMatchesRotation(TileMachineController tileMachineController, DynamicMachine value) {
-        if (value != null) {
-            SoundEvent activatedSound = ((IDynamicMachinePatch) value).getActivatedSound();
-            if (this.foundMachine == null && activatedSound != null && !firstCheck) {
-                world.playSound(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, activatedSound, SoundCategory.BLOCKS, 1.0f, 1.0f);
-            }
+        if (value != null && this.foundMachine == null && !firstCheck) {
+            new MachineActivatedEvent(world, pos, value).post();
         }
         firstCheck = false;
         foundMachine = value;

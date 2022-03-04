@@ -9,6 +9,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import stanhebben.zenscript.annotations.ZenExpansion;
 import stanhebben.zenscript.annotations.ZenMethod;
+import youyihj.modularcontroller.event.MachineActivatedEvent;
 import youyihj.modularcontroller.event.MachineRecipeCompleteEvent;
 import youyihj.modularcontroller.event.MachineRecipeStartEvent;
 import youyihj.modularcontroller.event.MachineRecipeTickEvent;
@@ -19,6 +20,7 @@ public class ExpandEventManger {
     private static final EventList<CrTMachineRecipeCompleteEvent> elMachineRecipeComplete = new EventList<>();
     private static final EventList<CrTMachineRecipeStartEvent> elMachineRecipeStart = new EventList<>();
     private static final EventList<CrTMachineRecipeTickEvent> elMachineRecipeTick = new EventList<>();
+    private static final EventList<CrTMachineActivatedEvent> elMachineActivated = new EventList<>();
 
     @ZenMethod
     public static IEventHandle onMachineRecipeComplete(IEventManager manager, IEventHandler<CrTMachineRecipeCompleteEvent> ev) {
@@ -33,6 +35,11 @@ public class ExpandEventManger {
     @ZenMethod
     public static IEventHandle onMachineRecipeTick(IEventManager manager, IEventHandler<CrTMachineRecipeTickEvent> ev) {
         return elMachineRecipeTick.add(ev);
+    }
+
+    @ZenMethod
+    public static IEventHandle onMachineActivated(IEventManager manager, IEventHandler<CrTMachineActivatedEvent> ev) {
+        return elMachineActivated.add(ev);
     }
 
     @Mod.EventBusSubscriber
@@ -55,6 +62,13 @@ public class ExpandEventManger {
         public static void onMachineRecipeTick(MachineRecipeTickEvent event) {
             if (elMachineRecipeTick.hasHandlers()) {
                 elMachineRecipeTick.publish(new CrTMachineRecipeTickEvent(event));
+            }
+        }
+
+        @SubscribeEvent
+        public static void onMachineActivated(MachineActivatedEvent event) {
+            if (elMachineActivated.hasHandlers()) {
+                elMachineActivated.publish(new CrTMachineActivatedEvent(event));
             }
         }
     }
