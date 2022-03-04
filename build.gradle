@@ -20,7 +20,7 @@ apply plugin: "net.minecraftforge.gradle.forge"
 apply plugin: 'org.spongepowered.mixin'
 
 group = 'youyihj'
-version = '1.4.1'
+version = '1.4.2'
 archivesBaseName = 'ModularController'
 
 minecraft {
