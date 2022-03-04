@@ -17,10 +17,7 @@ import net.minecraft.world.IBlockAccess;
 import youyihj.modularcontroller.util.ControllerInformation;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class BlockMMController extends BlockController implements ItemDynamicColor {
@@ -77,6 +74,7 @@ public class BlockMMController extends BlockController implements ItemDynamicCol
         return machineIDs.stream()
                 .map(id -> new ResourceLocation(ModularMachinery.MODID, id))
                 .map(MachineRegistry.getRegistry()::getMachine)
+                .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
 
