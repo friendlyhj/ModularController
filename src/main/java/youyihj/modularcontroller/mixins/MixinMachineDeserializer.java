@@ -20,13 +20,15 @@ import youyihj.modularcontroller.ModularController;
 import youyihj.modularcontroller.util.IDynamicMachinePatch;
 
 import java.lang.reflect.Type;
+import java.util.Optional;
 
 @Mixin(value = DynamicMachine.MachineDeserializer.class, remap = false)
 public abstract class MixinMachineDeserializer {
 
     @Inject(method = "deserialize", at = @At("RETURN"), locals = LocalCapture.CAPTURE_FAILHARD)
     public void injectDeserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context, CallbackInfoReturnable<DynamicMachine> cir, JsonObject root, String registryName) {
-        Block block = ForgeRegistries.BLOCKS.getValue(ModularController.rl(registryName + "_controller"));
+        String controllerName = Optional.ofNullable(root.get("controller")).map(JsonElement::getAsJsonObject).map(it -> it.get("name")).map(JsonElement::getAsString).orElse(registryName + "_controller");
+        Block block = ForgeRegistries.BLOCKS.getValue(ModularController.rl(controllerName));
         IDynamicMachinePatch dynamicMachine = ((IDynamicMachinePatch) cir.getReturnValue());
         if (block instanceof BlockController) {
             dynamicMachine.setController(((BlockController) block));
