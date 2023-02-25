@@ -1,27 +1,33 @@
 package youyihj.modularcontroller.core;
 
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.discovery.ModDiscoverer;
 import org.objectweb.asm.tree.ClassNode;
-import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
+import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
  * @author youyihj
  */
 public class MixinPlugin implements IMixinConfigPlugin {
-    private Method communityEditionDisabledReverseMethod;
+    public final Map<String, Boolean> ceDisabledClasses = new HashMap<>();
 
     @Override
     public void onLoad(String mixinPackage) {
         try {
-            communityEditionDisabledReverseMethod = CommunityEditionDisabled.class.getMethod("reverse");
-        } catch (NoSuchMethodException e) {
+            Field discoverField = Loader.class.getDeclaredField("discoverer");
+            discoverField.setAccessible(true);
+            ModDiscoverer discoverer = (ModDiscoverer) discoverField.get(Loader.instance());
+            discoverer.getASMTable().getAll(CommunityEditionDisabled.class.getCanonicalName()).forEach(data -> {
+                ceDisabledClasses.put(data.getClassName(), ((Boolean) data.getAnnotationInfo().getOrDefault("reverse", false)));
+            });
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -33,20 +39,7 @@ public class MixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-        try {
-            Class<?> mixinClass = Class.forName(mixinClassName, false, Mixin.class.getClassLoader());
-            Annotation[] annotations = mixinClass.getAnnotations();
-            for (Annotation annotation : annotations) {
-                try {
-                    return ((Boolean) Proxy.getInvocationHandler(annotation).invoke(annotation, communityEditionDisabledReverseMethod, null)) ^ !Reference.IS_CE;
-                } catch (Throwable ignored) {
-
-                }
-            }
-            return true;
-        } catch (Exception e) {
-            return true;
-        }
+        return !ceDisabledClasses.containsKey(mixinClassName) || (ceDisabledClasses.get(mixinClassName) ^ !Reference.IS_CE);
     }
 
     @Override
