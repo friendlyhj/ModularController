@@ -3,6 +3,7 @@ package youyihj.modularcontroller.event;
 import hellfirepvp.modularmachinery.common.crafting.MachineRecipe;
 import hellfirepvp.modularmachinery.common.crafting.helper.RecipeCraftingContext;
 import hellfirepvp.modularmachinery.common.tiles.TileMachineController;
+import youyihj.modularcontroller.core.CommunityEditionDisabled;
 import youyihj.modularcontroller.util.ModularMachineryHacks;
 
 import javax.annotation.Nullable;
@@ -10,6 +11,7 @@ import javax.annotation.Nullable;
 /**
  * @author youyihj
  */
+@CommunityEditionDisabled
 public class MachineRecipeEventFactory {
     public static void onCompleted(RecipeCraftingContext context) {
         new MachineRecipeCompleteEvent(context).post();

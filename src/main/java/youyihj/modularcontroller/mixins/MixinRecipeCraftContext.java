@@ -3,12 +3,14 @@ package youyihj.modularcontroller.mixins;
 import hellfirepvp.modularmachinery.common.crafting.helper.RecipeCraftingContext;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
+import youyihj.modularcontroller.core.CommunityEditionDisabled;
 import youyihj.modularcontroller.event.MachineRecipeEventFactory;
 
 /**
  * @author youyihj
  */
 @Mixin(value = RecipeCraftingContext.class, remap = false)
+@CommunityEditionDisabled
 public abstract class MixinRecipeCraftContext {
     /**
      * @author youyihj

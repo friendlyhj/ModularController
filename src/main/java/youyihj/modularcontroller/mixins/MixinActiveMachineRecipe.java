@@ -12,12 +12,14 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import youyihj.modularcontroller.core.CommunityEditionDisabled;
 import youyihj.modularcontroller.event.MachineRecipeEventFactory;
 
 /**
  * @author youyihj
  */
 @Mixin(value = ActiveMachineRecipe.class, remap = false)
+@CommunityEditionDisabled
 public abstract class MixinActiveMachineRecipe {
     @Shadow
     @Final

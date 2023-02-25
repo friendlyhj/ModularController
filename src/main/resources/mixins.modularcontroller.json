@@ -5,6 +5,7 @@
   "minVersion": "0.7.11",
   "setSourceFile": true,
   "priority": 0,
+  "plugin": "youyihj.modularcontroller.core.MixinPlugin",
   "refmap": "mixins.modularcontroller.refmap.json",
   "mixins": [
     "MixinActiveMachineRecipe",
@@ -12,7 +13,9 @@
     "MixinMachineDeserializer",
     "MixinModifierReplacement",
     "MixinRecipeCraftContext",
-    "MixinTileMachineController"
+    "MixinTileMachineController",
+    "MixinTileMachineControllerCE",
+    "MixinTileMachineControllerEventHook"
   ],
   "client": [
     "MixinBlockArrayPreviewRenderHelper",

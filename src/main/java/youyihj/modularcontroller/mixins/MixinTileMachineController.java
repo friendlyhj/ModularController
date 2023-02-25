@@ -1,7 +1,6 @@
 package youyihj.modularcontroller.mixins;
 
 import hellfirepvp.modularmachinery.common.block.BlockController;
-import hellfirepvp.modularmachinery.common.crafting.helper.RecipeCraftingContext;
 import hellfirepvp.modularmachinery.common.machine.DynamicMachine;
 import hellfirepvp.modularmachinery.common.machine.MachineRegistry;
 import hellfirepvp.modularmachinery.common.machine.TaggedPositionBlockArray;
@@ -12,7 +11,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
-import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -22,8 +20,6 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import youyihj.modularcontroller.block.BlockMMController;
-import youyihj.modularcontroller.event.MachineActivatedEvent;
-import youyihj.modularcontroller.event.MachineRecipeEventFactory;
 import youyihj.modularcontroller.util.IDynamicMachinePatch;
 
 import java.util.Iterator;
@@ -44,8 +40,6 @@ public abstract class MixinTileMachineController extends TileEntityRestrictedTic
     private DynamicMachine.ModifierReplacementMap foundReplacements;
 
     private boolean receiveRedstone = false;
-
-    private boolean firstCheck = true;
 
     private Iterable<DynamicMachine> machines;
 
@@ -98,27 +92,5 @@ public abstract class MixinTileMachineController extends TileEntityRestrictedTic
             this.foundMachine = null;
             this.foundReplacements = null;
         }
-    }
-
-    @Redirect(method = "doRestrictedTick", at = @At(value = "INVOKE", target = "Lhellfirepvp/modularmachinery/common/crafting/helper/RecipeCraftingContext;canStartCrafting()Lhellfirepvp/modularmachinery/common/crafting/helper/RecipeCraftingContext$CraftingCheckResult;"), remap = false)
-    private RecipeCraftingContext.CraftingCheckResult postStartEvent(RecipeCraftingContext context) {
-        return MachineRecipeEventFactory.onStarted(context);
-    }
-
-    @Redirect(
-            method = "matchesRotation",
-            at = @At(
-                    value = "FIELD",
-                    target = "Lhellfirepvp/modularmachinery/common/tiles/TileMachineController;foundMachine:Lhellfirepvp/modularmachinery/common/machine/DynamicMachine;",
-                    opcode = Opcodes.PUTFIELD
-            ),
-            remap = false
-    )
-    private void redirectMatchesRotation(TileMachineController tileMachineController, DynamicMachine value) {
-        if (value != null && this.foundMachine == null && !firstCheck) {
-            new MachineActivatedEvent(world, pos, value).post();
-        }
-        firstCheck = false;
-        foundMachine = value;
     }
 }

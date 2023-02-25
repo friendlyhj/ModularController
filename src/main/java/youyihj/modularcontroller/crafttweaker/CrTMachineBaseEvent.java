@@ -8,6 +8,7 @@ import crafttweaker.api.world.IWorld;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenGetter;
 import stanhebben.zenscript.annotations.ZenMethod;
+import youyihj.modularcontroller.core.CommunityEditionDisabled;
 import youyihj.modularcontroller.event.MachineBaseEvent;
 
 /**
@@ -15,6 +16,7 @@ import youyihj.modularcontroller.event.MachineBaseEvent;
  */
 @ZenRegister
 @ZenClass("mods.modularcontroller.MachineBaseEvent")
+@CommunityEditionDisabled
 public class CrTMachineBaseEvent {
     private final MachineBaseEvent event;
 

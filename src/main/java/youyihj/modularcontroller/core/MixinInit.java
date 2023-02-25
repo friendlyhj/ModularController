@@ -1,14 +1,17 @@
 package youyihj.modularcontroller.core;
 
-import org.spongepowered.asm.mixin.Mixins;
-import zone.rong.mixinbooter.MixinLoader;
+import zone.rong.mixinbooter.ILateMixinLoader;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author youyihj
  */
-@MixinLoader
-public class MixinInit {
-    public MixinInit() {
-        Mixins.addConfiguration("mixins.modularcontroller.json");
+public class MixinInit implements ILateMixinLoader {
+
+    @Override
+    public List<String> getMixinConfigs() {
+        return Collections.singletonList("mixins.modularcontroller.json");
     }
 }

@@ -5,12 +5,14 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import youyihj.modularcontroller.core.CommunityEditionDisabled;
 import youyihj.modularcontroller.util.IDynamicMachinePatch;
 
 /**
  * @author youyihj
  */
 @Mod.EventBusSubscriber
+@CommunityEditionDisabled
 public class EventHandler {
     @SubscribeEvent
     public static void onMachineActivated(MachineActivatedEvent event) {

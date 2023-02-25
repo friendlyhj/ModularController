@@ -9,6 +9,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import stanhebben.zenscript.annotations.ZenExpansion;
 import stanhebben.zenscript.annotations.ZenMethod;
+import youyihj.modularcontroller.core.CommunityEditionDisabled;
 import youyihj.modularcontroller.event.MachineActivatedEvent;
 import youyihj.modularcontroller.event.MachineRecipeCompleteEvent;
 import youyihj.modularcontroller.event.MachineRecipeStartEvent;
@@ -16,6 +17,7 @@ import youyihj.modularcontroller.event.MachineRecipeTickEvent;
 
 @ZenRegister
 @ZenExpansion("crafttweaker.events.IEventManager")
+@CommunityEditionDisabled
 public class ExpandEventManger {
     private static final EventList<CrTMachineRecipeCompleteEvent> elMachineRecipeComplete = new EventList<>();
     private static final EventList<CrTMachineRecipeStartEvent> elMachineRecipeStart = new EventList<>();
@@ -43,6 +45,7 @@ public class ExpandEventManger {
     }
 
     @Mod.EventBusSubscriber
+    @CommunityEditionDisabled
     public static class Handler {
         @SubscribeEvent
         public static void onMachineRecipeCompleted(MachineRecipeCompleteEvent event) {

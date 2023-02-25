@@ -8,10 +8,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.Event;
+import youyihj.modularcontroller.core.CommunityEditionDisabled;
 
 /**
  * @author youyihj
  */
+@CommunityEditionDisabled
 public class MachineBaseEvent extends Event {
     protected final World world;
     protected final BlockPos pos;
