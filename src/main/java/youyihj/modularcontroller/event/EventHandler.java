@@ -18,7 +18,7 @@ public class EventHandler {
         SoundEvent sound = machine.getActivatedSound();
         if (sound != null) {
             BlockPos pos = event.getPos();
-            event.world.playSound(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, sound, SoundCategory.BLOCKS, 1.0f, 1.0f);
+            event.getWorld().playSound(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, sound, SoundCategory.BLOCKS, 1.0f, 1.0f);
         }
     }
 }
